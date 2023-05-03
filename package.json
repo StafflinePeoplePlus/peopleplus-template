@@ -16,7 +16,7 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@auth/core": "^0.7.0",
+		"@auth/core": "^0.7.1",
 		"@auth/sveltekit": "^0.3.1",
 		"@playwright/test": "^1.33.0",
 		"@sveltejs/adapter-auto": "^2.0.0",
