@@ -1,7 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 
-import type { ExecutionContext, CacheStorage } from '@cloudflare/workers-types';
+import type { ExecutionContext, CacheStorage } from '@cloudflare/workers-types/2022-11-30';
 
 declare namespace App {
 	interface Platform {
