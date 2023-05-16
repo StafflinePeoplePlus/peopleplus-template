@@ -1,11 +1,13 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
+
+import type { ExecutionContext, CacheStorage } from '@cloudflare/workers-types';
+
 declare namespace App {
 	interface Platform {
-		context: {
-			waitUntil(promise: Promise<never>): void;
-		};
-		caches: CacheStorage & { default: Cache };
+		env: unknown;
+		context: ExecutionContext;
+		caches: CacheStorage;
 	}
 }
 
