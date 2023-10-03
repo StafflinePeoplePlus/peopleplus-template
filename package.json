@@ -36,7 +36,7 @@
 		"nyc": "^15.1.0",
 		"playwright-test-coverage": "^1.2.12",
 		"postcss": "^8.4.30",
-		"prettier": "^2.8.8",
+		"prettier": "^3.0.3",
 		"prettier-plugin-svelte": "^2.10.1",
 		"prettier-plugin-tailwindcss": "^0.3.0",
 		"svelte": "^3.59.1",
