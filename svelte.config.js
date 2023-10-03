@@ -11,11 +11,11 @@ const config = {
 		csp: {
 			directives: {
 				'script-src': ['self'],
-				'style-src': ['self']
-			}
+				'style-src': ['self'],
+			},
 		},
-		adapter: adapter()
-	}
+		adapter: adapter(),
+	},
 };
 
 export default config;
