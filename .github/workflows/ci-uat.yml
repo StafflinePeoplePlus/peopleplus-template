@@ -40,6 +40,8 @@ jobs:
 
       - name: Run Playwrite tests 🏃
         run: npm run test-coverage
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Merge coverage reports
         run: npm run merge-coverage
