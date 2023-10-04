@@ -12,6 +12,7 @@ const configureServer = (server: { middlewares: Connect.Server }) => {
 			'Permissions-Policy',
 			'camera=(), display-capture=(), fullscreen=(), geolocation=(), microphone=()',
 		);
+		res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
 		next();
 	});
 };

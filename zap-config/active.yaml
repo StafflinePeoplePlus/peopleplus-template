@@ -3,7 +3,7 @@ env:
     - excludePaths: []
       name: baseline
       urls:
-        - https://uat.learning-plus-shop.pages.dev/
+        - https://uat.peopleplus-template.pages.dev/
       technology:
         # We don't use any of these technologies so there is no point in testing against them
         exclude:
