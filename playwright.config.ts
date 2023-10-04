@@ -35,10 +35,8 @@ const config: PlaywrightTestConfig = {
 			use: { ...devices['Desktop Safari'] },
 		},
 		{
-			name: 'Mobile Safari',
-			use: {
-				...devices['iPhone 13'],
-			},
+			name: 'webkit-mobile',
+			use: { ...devices['iPhone 13'] },
 		},
 	],
 };
