@@ -41,6 +41,8 @@ jobs:
 
       - name: Run Playwrite tests 🏃
         run: npm run test
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
   zap:
     name: ZAP Full Scan
