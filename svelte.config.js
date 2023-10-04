@@ -11,11 +11,15 @@ const config = {
 		csp: {
 			directives: {
 				'script-src': ['self'],
-				'style-src': ['self']
-			}
+				'style-src': ['self', 'unsafe-inline'],
+				'default-src': ['self'],
+				'img-src': ['self'],
+				'frame-ancestors': ['none'],
+				'connect-src': ['self'],
+			},
 		},
-		adapter: adapter()
-	}
+		adapter: adapter(),
+	},
 };
 
 export default config;

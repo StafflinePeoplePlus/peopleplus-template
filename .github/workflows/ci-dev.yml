@@ -6,6 +6,10 @@ on:
       - uat
       - main
 
+permissions:
+  issues: write
+  contents: read
+
 env:
   NODE_VERSION: 18.x
   PRIVATE_AUTH_SECRET: ${{ secrets.PRIVATE_AUTH_SECRET }}
@@ -14,8 +18,8 @@ env:
   PRIVATE_AUTH0_CLIENT_ISSUER: ${{ secrets.PRIVATE_AUTH0_CLIENT_ISSUER }}
 
 jobs:
-  test:
-    name: Vitest & Playwright
+  vitest:
+    name: Vitest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛒
@@ -36,53 +40,47 @@ jobs:
       - name: Run Vi tests 🏃
         run: npm run test:unit
 
+  playwright:
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - chromium
+          - firefox
+          - webkit
+          - webkit-mobile
+    name: Playwright (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛒
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ env.NODE_VERSION }} 🛒
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Node Packages 🛒
+        run: npm ci
+
       - name: Install playwright browsers 🛒
         run: npx playwright install --with-deps
 
-      - name: Run Playwrite tests 🏃
-        run: npm run test
+      - name: Run Playwrite tests
+        run: npm run test -- --project ${{ matrix.browser }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.browser }}
+          path: test-results/
 
   zap:
-    name: ZAP Full Scan
-    runs-on: ubuntu-latest
-    concurrency:
-      group: zap-${{ github.ref }}
-      cancel-in-progress: true
-    steps:
-      - name: Checkout 🛒
-        uses: actions/checkout@v3
-
-      - name: Use Node.js ${{ env.NODE_VERSION }} 🛒
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install Node Packages 🛒
-        run: npm ci
-
-      - name: Build app 🧱
-        run: npm run build
-
-      - name: Launch app 🚀
-        run: npm run preview &
-
-      - name: Wait for app to start ☕️
-        run: sleep 10
-
-      - name: OWASP ZAP Full Scan - ${{ github.head_ref || github.ref_name }} 🩻
-        uses: zaproxy/action-full-scan@v0.4.0
-        with:
-          issue_title: 'ZAP Full Scan Report - ${{ github.head_ref || github.ref_name }}'
-          fail_action: true
-          target: 'http://localhost:4173'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options:
-            #AJAX Spider
-            '-j'
-
-  a11y:
-    name: Accessibility Scan
+    name: ZAP Baseline Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛒
@@ -106,12 +104,11 @@ jobs:
       - name: Wait for app to start ☕️
         run: sleep 10
 
-      - name: Accessibility scan 🩻
-        uses: a11ywatch/github-actions@v1.14.1
+      - name: Run ZAP Automation Framework
+        uses: StafflinePeoplePlus/zap-automation-framework@5491e083dee41fc2d93ab82d1cf88a779e67bd6c
         with:
-          WEBSITE_URL: '$(hostname):4173'
-          SUBDOMAINS: false
-          LIST: true
-          TLD: false
-          SITE_WIDE: true
-          UPGRADE: true
+          config-dir: 'zap-config'
+          autorun-file: 'baseline.yaml'
+          create-issue: true
+          fail-action-on-warning: true
+          issue-title: 'ZAP Report - ${{ github.head_ref || github.ref_name }}'
