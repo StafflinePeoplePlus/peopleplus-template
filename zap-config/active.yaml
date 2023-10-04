@@ -51,47 +51,16 @@ jobs:
       # Seems to just be selling more zap features
       - ruleId: 10112
         newRisk: False Positive
-      # The form returns a 403 due to sveltekit disallowing cross site POST requests
-      - ruleId: 10019
-        newRisk: False Positive
-        url: '.*(\/cookies\?\/update|\/basket\?\/addCourse|\/contact|\/course\/.+?\?\/buy)$'
-        urlRegex: true
-      # Sveltekit CSRF 403 misses out on applying our headers annoyingly
-      - ruleId: 10035 # Strict-Transport-Security Header Not Set
-        newRisk: False Positive
-        url: '.*(\/cookies\?\/update|\/basket\?\/addCourse|\/contact|\/course\/.+?\?\/buy)$'
-        urlRegex: true
-      # User controlled attribute is the input[value], which is fine (and sanitised by svelte(kit))
-      - ruleId: 10031
-        newRisk: False Positive
-        url: '.*/search.*'
-        urlRegex: true
-        parameter: query
       #  Cross-Domain JavaScript Source File Inclusion - not actionable
       - ruleId: 10017
         newRisk: False Positive
       #  Timestamp Disclosure - don't really care?
       - ruleId: 10096
         newRisk: False Positive
-      #  Ignore for proxied scripts
-      - ruleId: 10021 # X-Content-Type-Options Header Missing
-        newRisk: False Positive
-        url: '.*/_/.*'
-        urlRegex: true
       #  Retrieved from Cache - not actionable
       - ruleId: 10050
         newRisk: False Positive
 
-      ###
-      # The following are only applied to active scans
-      ###
-
-      # XSS reflected - handled by sveltekit, we simply print the text.
-      - ruleId: 40012
-        newRisk: False Positive
-        url: '.*/search.*'
-        urlRegex: true
-        parameter: query
   - type: passiveScan-config
     parameters:
       enableTags: false

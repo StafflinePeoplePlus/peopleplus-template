@@ -10,9 +10,7 @@ const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const MAX_REPORT_LENGTH = GITHUB_TOKEN ? 60000 : Infinity;
 const ERROR_THRESHOLD = 0;
 
-test('kayle a11y test', async ({ browser, page, baseURL, cookieConsent }) => {
-	await cookieConsent.give({ neccesary: true, analytics: false });
-
+test('kayle a11y test', async ({ browser, page, baseURL }) => {
 	const audits = await kayle.autoKayle({
 		page,
 		browser,

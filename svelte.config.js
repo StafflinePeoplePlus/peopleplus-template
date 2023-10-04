@@ -10,16 +10,10 @@ const config = {
 	kit: {
 		csp: {
 			directives: {
-				'script-src': ['strict-dynamic', 'https:', 'self'],
+				'script-src': ['self'],
 				'style-src': ['self', 'unsafe-inline'],
 				'default-src': ['self'],
-				'img-src': [
-					'self',
-					'https://servicecore.blob.core.windows.net/',
-					'https://uatservicecore.blob.core.windows.net/',
-					'https://www.facebook.com',
-					'https://px.ads.linkedin.com',
-				],
+				'img-src': ['self'],
 				'frame-ancestors': ['none'],
 				'connect-src': ['self'],
 			},
