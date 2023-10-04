@@ -2,4 +2,12 @@
 	import '../app.css';
 </script>
 
-<slot />
+
+<svelte:head>
+	<title>Peopleplus Template</title>
+</svelte:head>
+
+<main>
+	<slot />
+</main>
+
