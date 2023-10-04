@@ -1,0 +1,92 @@
+env:
+  contexts:
+    - excludePaths: []
+      name: baseline
+      urls:
+        - https://uat.peopleplus-template.pages.dev/
+      technology:
+        # We don't use any of these technologies so there is no point in testing against them
+        exclude:
+          - Firebird
+          - HypersonicSQL
+          - IBM DB2
+          - Microsoft Access
+          - Microsoft SQL Server
+          - MongoDB
+          - MySQL
+          - Oracle
+          - PostgreSQL
+          - SAP MaxDB
+          - SQLite
+          - Sybase
+          - ASP
+          - C
+          - Java
+          - Spring
+          - PHP
+          - Apache
+          - IIS
+  parameters:
+    failOnError: true
+    progressToStdout: true
+jobs:
+  - type: alertFilter
+    alertFilters:
+      # We already know we're a 'Modern Web Application'
+      - ruleId: 10109
+        newRisk: False Positive
+      # SvelteKit handles CSRF concerns without using tokens, no need to check for them.
+      - ruleId: 10202
+        newRisk: False Positive
+      # We don't do any sql, so finding SQL verbs in a comment is fine.
+      - ruleId: 10027
+        newRisk: False Positive
+        evidence: ^(from|select|query|debug|where|user)$
+        evidenceRegex: true
+      # We need unsafe-inline on styles, its used extensively by svelte and other libs we use.
+      - ruleId: 10055
+        newRisk: False Positive
+        evidence: ".*style-src .*?'unsafe-inline'.*?;.*"
+        evidenceRegex: true
+      # Seems to just be selling more zap features
+      - ruleId: 10112
+        newRisk: False Positive
+      #  Cross-Domain JavaScript Source File Inclusion - not actionable
+      - ruleId: 10017
+        newRisk: False Positive
+      #  Timestamp Disclosure - don't really care?
+      - ruleId: 10096
+        newRisk: False Positive
+      #  Retrieved from Cache - not actionable
+      - ruleId: 10050
+        newRisk: False Positive
+
+  - type: passiveScan-config
+    parameters:
+      enableTags: false
+      maxAlertsPerRule: 10
+  - type: spider
+    parameters:
+      maxDuration: 5
+      url: https://uat.learning-plus-shop.pages.dev/
+  - type: spiderAjax
+    parameters:
+      maxDuration: 30
+      url: https://uat.learning-plus-shop.pages.dev/
+  - type: activeScan
+    parameters:
+      maxRuleDurationInMins: 10
+      maxScanDurationInMins: 180
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 0
+  - type: report
+    parameters:
+      template: 'traditional-json'
+      reportFile: 'report.json'
+      reportDir: '/zap/reports'
+      displayReport: false
+  - type: outputSummary
+    parameters:
+      format: long
+      summaryFile: '/zap/reports/summary.json'

@@ -1,6 +1,6 @@
 import { sequence } from '@sveltejs/kit/hooks';
-import { SvelteKitAuth } from '@auth/sveltekit';
-import Auth0 from '@auth/core/providers/auth0';
+// import { SvelteKitAuth } from '@auth/sveltekit';
+// import Auth0 from '@auth/core/providers/auth0';
 import type { Handle } from '@sveltejs/kit';
 /*
 FIXME - Setup Auth
@@ -21,9 +21,15 @@ const headers: Handle = async function handle({ event, resolve }) {
 	response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
 	response.headers.set(
 		'Permissions-Policy',
-		'camera=(), display-capture=(), fullscreen=(), geolocation=(), microphone=()'
+		'camera=(), display-capture=(), fullscreen=(), geolocation=(), microphone=()',
 	);
 	response.headers.delete('access-control-allow-origin');
+	response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+
+	if (!response.headers.has('Cache-Control')) {
+		response.headers.set('Cache-Control', 'private');
+	}
+
 	return response;
 };
 
@@ -41,5 +47,5 @@ export const handle = sequence(
 		secret: PRIVATE_AUTH_SECRET
 	}),
 	 */
-	headers
+	headers,
 );
