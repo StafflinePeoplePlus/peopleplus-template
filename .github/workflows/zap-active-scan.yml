@@ -1,0 +1,27 @@
+# name: 'Scheduled ZAP Scan'
+# on:
+#   workflow_dispatch:
+#   schedule:
+#     # Run at 04:30 UTC
+#     - cron: '30 4 * * *'
+
+# jobs:
+#   zap:
+#     name: ZAP Active Scan
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout 🛒
+#         uses: actions/checkout@v3
+#         with:
+#           ref: uat
+
+#       - name: Wait for app to start ☕️
+#         run: sleep 10
+
+#       - name: Run ZAP Automation Framework
+#         uses: StafflinePeoplePlus/zap-automation-framework@aec9f26cc24571c101a6002062a4f0a19d5c4a8a
+#         with:
+#           config-dir: 'zap-config'
+#           autorun-file: 'active.yaml'
+#           create-issue: true
+#           issue-title: 'ZAP Daily Report'
