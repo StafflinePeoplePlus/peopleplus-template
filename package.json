@@ -18,7 +18,7 @@
 	},
 	"devDependencies": {
 		"@actions/github": "^6.0.0",
-		"@auth/core": "^0.16.0",
+		"@auth/core": "^0.17.0",
 		"@auth/sveltekit": "^0.3.10",
 		"@cloudflare/workers-types": "^4.20231016.0",
 		"@playwright/test": "^1.39.0",
