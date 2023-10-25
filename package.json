@@ -14,7 +14,8 @@
 		"test:unit-coverage": "vitest run --coverage",
 		"lint": "prettier --plugin prettier-plugin-svelte --plugin prettier-plugin-tailwindcss --check . && eslint . && npm run check",
 		"format": "prettier --plugin prettier-plugin-svelte --plugin prettier-plugin-tailwindcss --write .",
-		"merge-coverage": "istanbul report -v --include='coverage/**/coverage-final.json' json-summary"
+		"merge-coverage": "istanbul report -v --include='coverage/**/coverage-final.json' json-summary",
+		"prepare": "husky install"
 	},
 	"devDependencies": {
 		"@actions/github": "^6.0.0",
@@ -32,6 +33,7 @@
 		"eslint": "^8.52.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.34.0",
+		"husky": "^8.0.3",
 		"istanbul": "^0.4.5",
 		"istanbul-badges-readme": "^1.8.5",
 		"jsdom": "^22.1.0",
