@@ -68,11 +68,11 @@ jobs:
   - type: spider
     parameters:
       maxDuration: 5
-      url: https://uat.learning-plus-shop.pages.dev/
+      url: https://uat.peopleplus-template.pages.dev/
   - type: spiderAjax
     parameters:
       maxDuration: 30
-      url: https://uat.learning-plus-shop.pages.dev/
+      url: https://uat.peopleplus-template.pages.dev/
   - type: activeScan
     parameters:
       maxRuleDurationInMins: 10
