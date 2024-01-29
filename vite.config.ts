@@ -50,4 +50,7 @@ export default defineConfig({
 		sourcemap: !!process.env.VITE_COVERAGE,
 	},
 	server: { cors: { origin: false } },
+	ssr: {
+		noExternal: ['@jill64/sentry-sveltekit-cloudflare'],
+	},
 });
