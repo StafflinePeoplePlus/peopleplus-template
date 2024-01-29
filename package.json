@@ -48,7 +48,7 @@
 		"tailwindcss": "^3.3.5",
 		"tslib": "^2.6.2",
 		"typescript": "^5.1.6",
-		"vite": "^4.5.1",
+		"vite": "^4.5.2",
 		"vite-plugin-istanbul": "^5.0.0",
 		"vitest": "^0.34.6",
 		"wrangler": "^3.22.1",
