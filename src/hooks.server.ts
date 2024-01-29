@@ -1,8 +1,8 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import type { Handle } from '@sveltejs/kit';
-import { dev } from '$app/environment';
-import { PUBLIC_TRACING_DSN, PUBLIC_SENTRY_ENVIRONMENT } from '$env/static/public';
-import { serverInit } from '@jill64/sentry-sveltekit-cloudflare';
+// import { dev } from '$app/environment';
+// import { PUBLIC_TRACING_DSN, PUBLIC_SENTRY_ENVIRONMENT } from '$env/static/public';
+// import { serverInit } from '@jill64/sentry-sveltekit-cloudflare';
 
 const headers: Handle = async function handle({ event, resolve }) {
 	const response = await resolve(event);
@@ -25,12 +25,16 @@ const headers: Handle = async function handle({ event, resolve }) {
 	return response;
 };
 
-const { onHandle, onError } = serverInit(PUBLIC_TRACING_DSN, {
-	toucanOptions: {
-		environment: dev ? 'dev' : PUBLIC_SENTRY_ENVIRONMENT ?? 'production',
-	},
-	enableInDevMode: true,
-});
+// const { onHandle, onError } = serverInit(PUBLIC_TRACING_DSN, {
+// 	toucanOptions: {
+// 		environment: dev ? 'dev' : PUBLIC_SENTRY_ENVIRONMENT ?? 'production',
+// 	},
+// 	enableInDevMode: true,
+// });
 
-export const handleError = onError();
-export const handle = sequence(onHandle(), headers);
+// export const handleError = onError();
+
+export const handle = sequence(
+	// onHandle(),
+	headers,
+);
