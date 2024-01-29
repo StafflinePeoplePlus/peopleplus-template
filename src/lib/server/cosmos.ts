@@ -1,11 +1,16 @@
-import { CosmosClient, FeedResponse, ItemResponse, type PersistedResource } from '@cfworker/cosmos';
+import {
+	// CosmosClient,
+	FeedResponse,
+	ItemResponse,
+	type PersistedResource,
+} from '@cfworker/cosmos';
 import { z } from 'zod';
 
 // TODO: setup cosmos config
-export const cosmos = new CosmosClient({
-	connectionString: 'PRIVATE_COSMOS_CONNECTION_STRING',
-	dbId: 'PRIVATE_COSMOS_DATABASE',
-});
+// export const cosmos = new CosmosClient({
+// 	connectionString: 'PRIVATE_COSMOS_CONNECTION_STRING',
+// 	dbId: 'PRIVATE_COSMOS_DATABASE',
+// });
 
 export async function resolveCosmosJSON<T extends PersistedResource>(
 	response: ItemResponse<T>,

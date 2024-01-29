@@ -1,1 +1,1 @@
-export { handleAuthCallback as GET } from '$lib/server/auth';
+// export { handleAuthCallback as GET } from '$lib/server/auth';
