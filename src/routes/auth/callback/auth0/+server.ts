@@ -1,1 +1,4 @@
-// export { handleAuthCallback as GET } from '$lib/server/auth';
+// TODO: add in auth callback once auth is setup
+// export function GET(event) {
+// 	return event.locals.auth.handleAuthCallback(event);
+// }

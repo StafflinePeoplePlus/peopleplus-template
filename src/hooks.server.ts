@@ -1,6 +1,6 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import type { Handle } from '@sveltejs/kit';
-// import { authenticationHook } from '$lib/server/auth';
+// import { hook } from '$lib/server/auth';
 
 const headers: Handle = async function handle({ event, resolve }) {
 	const response = await resolve(event);
@@ -23,8 +23,13 @@ const headers: Handle = async function handle({ event, resolve }) {
 	return response;
 };
 
+// TODO: init locals for auth and hook up authentication hook once auth is setup
+// const addLocals: Handle = async function handle({ event, resolve }) {
+// 	event.locals.auth = createAuth( createDB(PRIVATE_PG_DATABASE_URL));
+// 	return event.locals.auth.hook({ event, resolve });
+// };
+
 export const handle = sequence(
-	// TODO: add in authentication hook once auth is setup
-	// authenticationHook,
 	headers,
+	// addLocals,
 );

@@ -20,7 +20,7 @@
 		"@actions/github": "^6.0.0",
 		"@cfworker/cosmos": "^1.13.6",
 		"@cloudflare/workers-types": "^4.20231218.0",
-		"@peopleplus/auth": "^0.2.0",
+		"@peopleplus/auth": "^0.3.1",
 		"@playwright/test": "^1.40.1",
 		"@sveltejs/adapter-cloudflare": "^4.1.0",
 		"@sveltejs/kit": "^2.5.0",
@@ -55,5 +55,8 @@
 		"wrangler": "^3.25.0",
 		"zod": "^3.22.4"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"postgres": "^3.4.3"
+	}
 }

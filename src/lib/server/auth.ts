@@ -1,62 +1,74 @@
-// import peoplePlusAuth from '@peopleplus/auth';
-// import { cosmosAdapter } from '@peopleplus/auth/cosmos';
-// import { lucia } from 'lucia';
-// import { sveltekit } from 'lucia/middleware';
-// import { dev } from '$app/environment';
+// import { PeoplePlusAuth } from '@peopleplus/auth';
+// import { PostgresAdapter } from '@peopleplus/auth/database/postgres';
+// import {
+// 	PRIVATE_AUTH0_CLIENT_ISSUER,
+// 	PRIVATE_AUTH0_CLIENT_ID,
+// 	PRIVATE_AUTH0_CLIENT_SECRET,
+// 	PRIVATE_AUTH0_API_IDENTIFIER,
+// } from '$env/static/private';
 // import { extractPermissions } from '$lib/util';
-// // import { cosmos } from './cosmos';
+// import type { Sql } from 'postgres';
 
-// const auth = lucia({
-// 	sessionExpiresIn: {
-// 		activePeriod: 86400000, // 1 day in milliseconds which matches the auth0 access token length
-// 		idlePeriod: 0, // we don't support an idle period (though we _could_ if we implemented auth0 token refreshing)
-// 	},
-// 	env: dev ? 'DEV' : 'PROD',
-// 	middleware: sveltekit(),
-// 	adapter: cosmosAdapter(cosmos, {
-// 		user: 'user',
-// 		session: 'session',
-// 		key: 'user_key',
-// 	}),
-// 	// TODO: get user attributes
-// 	// getUserAttributes(user) {
-// 	// 	return {
-// 	// 		...
-// 	// 	};
-// 	// },
-// 	getSessionAttributes(session) {
-// 		const permissions = extractPermissions(session.access_token) ?? [];
-// 		return { accessToken: session.access_token, idToken: session.id_token, permissions };
-// 	},
+export type SessionResponse = {
+	auth0Token: string;
+	permissions: string[];
+	user: App.Locals['user'];
+} | null;
+
+declare module '@peopleplus/auth' {
+	interface Provide {
+		// Auth: Auth;
+		DatabaseUserAttributes: DatabaseUserAttributes;
+	}
+}
+
+// export type Auth = ReturnType<typeof createAuth>;
+type DatabaseUserAttributes = {
+	roles?: string[];
+	pps_id?: string;
+	name: string;
+	email?: string;
+	image?: string;
+	userId?: string;
+	domain?: string;
+};
+
+// export function createAuth(database: Sql) {
+// 	return new PeoplePlusAuth({
+// adapter: new PostgresAdapter(database, { user: 'p3.user', session: 'p3.session' }),
+
+// auth0: {
+// 	domain: PRIVATE_AUTH0_CLIENT_ISSUER,
+// 	clientID: PRIVATE_AUTH0_CLIENT_ID,
+// 	clientSecret: PRIVATE_AUTH0_CLIENT_SECRET,
+// 	audience: PRIVATE_AUTH0_API_IDENTIFIER,
+// 	callbackURL: '/auth/callback/auth0',
+// },
+
+// exposeUserAttributes(user) {
+// 	return {
+//         ...
+// 	};
+// },
+
+// exposeSessionAttributes(session) {
+// 	return { accessToken: session.access_token };
+// },
+
+// captureUserAttributes({ idToken }) {
+// 	return {
+//         ...
+// 	};
+// },
 // });
+// }
 
-// export const { handleAuthCallback, handleSignInRedirect, handleSignOut, authenticationHook } =
-// 	peoplePlusAuth({
-// 		auth,
-// 		// TODO: add auth0 config
-// 		domain: 'PRIVATE_AUTH0_CLIENT_ISSUER',
-// 		clientID: 'PRIVATE_AUTH0_CLIENT_ID',
-// 		clientSecret: 'PRIVATE_AUTH0_CLIENT_SECRET',
-// 		audience: 'PRIVATE_AUTH0_API_IDENTIFIER',
-// 		urls: {
-// 			authCallback: '/auth/callback/auth0',
-// 		},
-// 		// TODO: extract user attributes from idToken
-// 		// extractUserAttributes({ idToken }) {
-// 		// 	return {
-// 		//         ...
-// 		//     }
-// 		// },
-// 	});
-
-// export async function parseSession(locals: App.Locals): Promise<App.Session | null> {
-// 	const session = await locals.auth.validate();
+// export async function parseSession(locals: App.Locals): Promise<SessionResponse> {
+// 	const { session, user } = locals;
 // 	if (!session) return null;
 // 	return {
-// 		user: { ...session.user, id: session.userId },
-// 		permissions: session.permissions,
-// 		roles: session.roles,
-// 		sessionId: session.sessionId,
-// 		auth0Token: session?.accessToken,
+// 		user,
+// 		permissions: extractPermissions(session.accessToken) ?? [],
+// 		auth0Token: session.accessToken,
 // 	};
 // }
