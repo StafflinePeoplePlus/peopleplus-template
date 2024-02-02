@@ -18,7 +18,6 @@
 	},
 	"devDependencies": {
 		"@actions/github": "^6.0.0",
-		"@cfworker/cosmos": "^1.13.6",
 		"@cloudflare/workers-types": "^4.20231218.0",
 		"@peopleplus/auth": "^0.3.1",
 		"@playwright/test": "^1.40.1",
