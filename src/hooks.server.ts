@@ -1,16 +1,8 @@
 import { sequence } from '@sveltejs/kit/hooks';
-// import { SvelteKitAuth } from '@auth/sveltekit';
-// import Auth0 from '@auth/core/providers/auth0';
 import type { Handle } from '@sveltejs/kit';
-/*
-FIXME - Setup Auth
-import {
-	PRIVATE_AUTH_SECRET,
-	PRIVATE_AUTH0_CLIENT_ID,
-	PRIVATE_AUTH0_CLIENT_SECRET,
-	PRIVATE_AUTH0_CLIENT_ISSUER
-} from '$env/static/private';
- */
+// import { dev } from '$app/environment';
+// import { PUBLIC_TRACING_DSN, PUBLIC_SENTRY_ENVIRONMENT } from '$env/static/public';
+// import { serverInit } from '@jill64/sentry-sveltekit-cloudflare';
 
 const headers: Handle = async function handle({ event, resolve }) {
 	const response = await resolve(event);
@@ -33,19 +25,16 @@ const headers: Handle = async function handle({ event, resolve }) {
 	return response;
 };
 
+// const { onHandle, onError } = serverInit(PUBLIC_TRACING_DSN, {
+// 	toucanOptions: {
+// 		environment: dev ? 'dev' : PUBLIC_SENTRY_ENVIRONMENT ?? 'production',
+// 	},
+// 	enableInDevMode: true,
+// });
+
+// export const handleError = onError();
+
 export const handle = sequence(
-	/*
-	SvelteKitAuth({
-		providers: [
-			Auth0({
-				clientId: PRIVATE_AUTH0_CLIENT_ID,
-				clientSecret: PRIVATE_AUTH0_CLIENT_SECRET,
-				issuer: PRIVATE_AUTH0_CLIENT_ISSUER
-			})
-		],
-		trustHost: true,
-		secret: PRIVATE_AUTH_SECRET
-	}),
-	 */
+	// onHandle(),
 	headers,
 );
