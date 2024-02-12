@@ -36,7 +36,7 @@
 		"eslint-plugin-svelte": "^2.35.1",
 		"istanbul": "^0.4.5",
 		"istanbul-badges-readme": "^1.8.5",
-		"jsdom": "^23.2.0",
+		"jsdom": "^24.0.0",
 		"kayle": "^0.8.1",
 		"nyc": "^15.1.0",
 		"playwright-test-coverage": "^1.2.12",
