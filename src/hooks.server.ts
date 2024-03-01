@@ -1,16 +1,6 @@
 import { sequence } from '@sveltejs/kit/hooks';
-// import { SvelteKitAuth } from '@auth/sveltekit';
-// import Auth0 from '@auth/core/providers/auth0';
 import type { Handle } from '@sveltejs/kit';
-/*
-FIXME - Setup Auth
-import {
-	PRIVATE_AUTH_SECRET,
-	PRIVATE_AUTH0_CLIENT_ID,
-	PRIVATE_AUTH0_CLIENT_SECRET,
-	PRIVATE_AUTH0_CLIENT_ISSUER
-} from '$env/static/private';
- */
+// import { hook } from '$lib/server/auth';
 
 const headers: Handle = async function handle({ event, resolve }) {
 	const response = await resolve(event);
@@ -33,19 +23,13 @@ const headers: Handle = async function handle({ event, resolve }) {
 	return response;
 };
 
+// TODO: init locals for auth and hook up authentication hook once auth is setup
+// const addLocals: Handle = async function handle({ event, resolve }) {
+// 	event.locals.auth = createAuth( createDB(PRIVATE_PG_DATABASE_URL));
+// 	return event.locals.auth.hook({ event, resolve });
+// };
+
 export const handle = sequence(
-	/*
-	SvelteKitAuth({
-		providers: [
-			Auth0({
-				clientId: PRIVATE_AUTH0_CLIENT_ID,
-				clientSecret: PRIVATE_AUTH0_CLIENT_SECRET,
-				issuer: PRIVATE_AUTH0_CLIENT_ISSUER
-			})
-		],
-		trustHost: true,
-		secret: PRIVATE_AUTH_SECRET
-	}),
-	 */
 	headers,
+	// addLocals,
 );
