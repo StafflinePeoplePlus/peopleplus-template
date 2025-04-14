@@ -19,7 +19,7 @@ jobs:
         run: sleep 10
 
       - name: Run ZAP Automation Framework
-        uses: StafflinePeoplePlus/zap-automation-framework@1.0.2
+        uses: StafflinePeoplePlus/zap-automation-framework@1.0.3
         with:
           config-dir: 'zap-config'
           autorun-file: 'active.yaml'
