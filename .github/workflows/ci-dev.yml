@@ -76,7 +76,7 @@ jobs:
         run: npx playwright install --with-deps ${{ matrix.browser.install }}
 
       - name: Run Playwrite tests
-        run: npm run test -- --project ${{ matrix.browser }}
+        run: npm run test -- --project ${{ matrix.browser.name }} --shard ${{ matrix.shard }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -84,7 +84,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.browser }}
+          name: test-results-${{ matrix.browser.name }}
           path: test-results/
 
   zap:
