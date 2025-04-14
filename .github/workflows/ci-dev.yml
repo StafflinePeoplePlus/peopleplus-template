@@ -16,6 +16,9 @@ env:
   PRIVATE_AUTH0_CLIENT_ID: ${{ secrets.PRIVATE_AUTH0_CLIENT_ID }}
   PRIVATE_AUTH0_CLIENT_SECRET: ${{ secrets.PRIVATE_AUTH0_CLIENT_SECRET }}
   PRIVATE_AUTH0_CLIENT_ISSUER: ${{ secrets.PRIVATE_AUTH0_CLIENT_ISSUER }}
+  # PUBLIC_TRACING_DSN: ${{ vars.PUBLIC_TRACING_DSN }}
+  # SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  # PUBLIC_SENTRY_ENVIRONMENT: ${{ vars.SENTRY_ENVIRONMENT }}
 
 jobs:
   vitest:
@@ -44,13 +47,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        shard: [1/3, 2/3, 3/3]
         browser:
-          - chromium
-          - firefox
-          - webkit
-          - webkit-mobile
-    name: Playwright (${{ matrix.browser }})
-    runs-on: ubuntu-latest
+          - name: chromium
+            install: chromium
+          - name: firefox
+            install: firefox
+          - name: webkit
+            install: webkit
+          - name: mobile
+            install: chromium
+    name: playwright / ${{ matrix.browser.name }} (${{ matrix.shard }})
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout 🛒
         uses: actions/checkout@v3
@@ -65,18 +73,18 @@ jobs:
         run: npm ci
 
       - name: Install playwright browsers 🛒
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps ${{ matrix.browser.install }}
 
       - name: Run Playwrite tests
-        run: npm run test -- --project ${{ matrix.browser }}
+        run: npm run test -- --project ${{ matrix.browser.name }} --shard ${{ matrix.shard }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Upload test results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.browser }}
+          name: test-results-${{ matrix.browser.name }}
           path: test-results/
 
   zap:
@@ -105,7 +113,7 @@ jobs:
         run: sleep 10
 
       - name: Run ZAP Automation Framework
-        uses: StafflinePeoplePlus/zap-automation-framework@5491e083dee41fc2d93ab82d1cf88a779e67bd6c
+        uses: StafflinePeoplePlus/zap-automation-framework@1.0.4
         with:
           config-dir: 'zap-config'
           autorun-file: 'baseline.yaml'
