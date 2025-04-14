@@ -77,7 +77,7 @@ jobs:
 
       - name: Upload test results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.browser }}
           path: test-results/
@@ -108,7 +108,7 @@ jobs:
         run: sleep 10
 
       - name: Run ZAP Automation Framework
-        uses: StafflinePeoplePlus/zap-automation-framework@5491e083dee41fc2d93ab82d1cf88a779e67bd6c
+        uses: StafflinePeoplePlus/zap-automation-framework@1.0.1
         with:
           config-dir: 'zap-config'
           autorun-file: 'baseline.yaml'
