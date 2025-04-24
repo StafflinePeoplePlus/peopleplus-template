@@ -19,6 +19,12 @@ const configureServer = (server: { middlewares: Connect.Server }) => {
 
 export default defineConfig({
 	plugins: [
+		// sentryVitePlugin({
+		// 	url: 'https://monitoring.peopleplus.co.uk',
+		// 	org: 'peopleplus',
+		// 	project: '<PROJECT NAME>',
+		// 	authToken: process.env.SENTRY_AUTH_TOKEN ?? '',
+		// }),
 		sveltekit(),
 		{ name: 'headers', configureServer },
 		...(process.env.VITE_COVERAGE
@@ -44,4 +50,7 @@ export default defineConfig({
 		sourcemap: !!process.env.VITE_COVERAGE,
 	},
 	server: { cors: { origin: false } },
+	ssr: {
+		noExternal: ['@jill64/sentry-sveltekit-cloudflare'],
+	},
 });
