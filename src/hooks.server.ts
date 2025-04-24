@@ -1,5 +1,6 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import type { Handle } from '@sveltejs/kit';
+// import { hook } from '$lib/server/auth';
 // import { dev } from '$app/environment';
 // import { PUBLIC_TRACING_DSN, PUBLIC_SENTRY_ENVIRONMENT } from '$env/static/public';
 // import { serverInit } from '@jill64/sentry-sveltekit-cloudflare';
@@ -25,6 +26,12 @@ const headers: Handle = async function handle({ event, resolve }) {
 	return response;
 };
 
+// TODO: init locals for auth and hook up authentication hook once auth is setup
+// const addLocals: Handle = async function handle({ event, resolve }) {
+// 	event.locals.auth = createAuth( createDB(PRIVATE_PG_DATABASE_URL));
+// 	return event.locals.auth.hook({ event, resolve });
+// };
+
 // const { onHandle, onError } = serverInit(PUBLIC_TRACING_DSN, {
 // 	toucanOptions: {
 // 		environment: dev ? 'dev' : PUBLIC_SENTRY_ENVIRONMENT ?? 'production',
@@ -37,4 +44,5 @@ const headers: Handle = async function handle({ event, resolve }) {
 export const handle = sequence(
 	// onHandle(),
 	headers,
+	// addLocals,
 );
